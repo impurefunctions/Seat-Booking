@@ -21,26 +21,67 @@ import java.util.Properties;
 
 import Models.AppStatus;
 
+/**
+ * The main activity of the application.
+ * This activity handles user login and navigation to the seat booking screen.
+ */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    /**
+     * The employee code entered by the user.
+     */
     String str_empcode, a, b;
 
+    /**
+     * EditText for the employee code.
+     */
     EditText edt_empcode;
 
+    /**
+     * Button to navigate to the new user registration screen.
+     */
     Button newuser;
 
+    /**
+     * Button to log in.
+     */
     Button login;
 
-    //boolean b=false;
+    /**
+     * Properties object.
+     */
     Properties prop;
+    /**
+     * Firebase database reference.
+     */
     DatabaseReference ref;
+    /**
+     * Firebase database instance.
+     */
     FirebaseDatabase Database;
+    /**
+     * LinearLayout for the main layout.
+     */
     LinearLayout ll;
+    /**
+     * TextView for the seat label.
+     */
     TextView t1;
+    /**
+     * RelativeLayout for the home screen.
+     */
     RelativeLayout Rl;
-    //private ProgressBar progressBar;
+    /**
+     * Checks the network status.
+     */
     AppStatus appStatus;
 
+    /**
+     * Initializes the activity.
+     * This method sets up the UI components and Firebase database reference.
+     *
+     * @param savedInstanceState A bundle containing the activity's previously saved state.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,13 +110,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-      
-        
+
         //OnClickListeners
         findViewById(R.id.newuser).setOnClickListener(this);
 
     }
 
+    /**
+     * Creates the options menu.
+     *
+     * @param menu The menu to inflate.
+     * @return True if the menu is created successfully.
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -83,6 +129,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return true;
     }
 
+    /**
+     * Handles click events for the login button.
+     * Validates the employee code and navigates to the booking screen.
+     *
+     * @param v The view that was clicked.
+     */
     @Override
     public void onClick(View v) {
         if (appStatus.isOnline()) {
@@ -95,24 +147,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             "Please enter your Employee Code",
                             Toast.LENGTH_LONG).show();
                 }
-                                /*else if(str_empcode.equals("1234")){
-                                        Toast.makeText(this, "Welcome User", Toast.LENGTH_SHORT).show();
-                                        Intent intent=new Intent(MainActivity.this,book.class);
-                                        startActivity(intent);
-
-                                }
-                                else if(str_empcode.equals("0000")){
-                                        Toast.makeText(this, "Welcome User", Toast.LENGTH_SHORT).show();
-                                        Intent intent=new Intent(MainActivity.this,book.class);
-                                        startActivity(intent);
-
-                                }
-                                else if(str_empcode.equals("1111")){
-                                        Toast.makeText(this, "Welcome User", Toast.LENGTH_SHORT).show();
-                                        Intent intent=new Intent(MainActivity.this,book.class);
-                                        startActivity(intent);
-
-                                }*/
                 else if (str_empcode.equals("1234") || str_empcode.equals("0000")
                         || str_empcode.equals("1111")) {
                     Toast.makeText(this, "Welcome User",
@@ -143,5 +177,3 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 }
-
-

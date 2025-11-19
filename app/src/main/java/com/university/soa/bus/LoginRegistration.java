@@ -14,17 +14,55 @@ import com.google.firebase.database.FirebaseDatabase;
 import Models.AppStatus;
 
 /**
- * Created by pkumar on 5/13/18.
+ * Handles user registration.
+ * This activity allows new users to register with their name and employee code.
+ * The registration details are stored in the Firebase Realtime Database.
  */
-
 public class LoginRegistration extends AppCompatActivity implements View.OnClickListener {
 
-    String str_name,str_empcode;
-    EditText e1, e2, e3;
-    Button b1, b2;
-AppStatus appStatus;
+    /**
+     * The name of the employee.
+     */
+    String str_name;
+    /**
+     * The employee's unique code.
+     */
+    String str_empcode;
+    /**
+     * EditText for the employee's name.
+     */
+    EditText e1;
+    /**
+     * EditText for the employee's code.
+     */
+    EditText e2;
+    /**
+     * Button to initiate registration.
+     */
+    Button b1;
+    /**
+     * Button to switch to the login screen.
+     */
+    Button b2;
+    /**
+     * Checks the network status.
+     */
+    AppStatus appStatus;
+    /**
+     * Firebase database reference.
+     */
     DatabaseReference ref;
+    /**
+     * Firebase database instance.
+     */
     FirebaseDatabase Database;
+
+    /**
+     * Initializes the activity.
+     * This method sets up the UI components and Firebase database reference.
+     *
+     * @param savedInstanceState A bundle containing the activity's previously saved state.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,31 +84,35 @@ AppStatus appStatus;
         });
 
     }
+
+    /**
+     * Handles click events for the registration and existing user buttons.
+     * Validates the input fields and saves the user data to Firebase.
+     *
+     * @param v The view that was clicked.
+     */
     @Override
     public void onClick(View v) {
-        if (appStatus.isOnline()){
-            str_name=e1.getText().toString().trim();
-            str_empcode=e2.getText().toString().trim();
-            try{
-               if(str_name.length()==0 && str_empcode.length()==0) {
-                  Toast.makeText(getApplicationContext(),"Please enter Employee Name and Code..",Toast.LENGTH_LONG).show();
-               }
-               else if(str_name.length()==0 || str_empcode.length()==0){
-                   Toast.makeText(getApplicationContext(),"All fields are Mandatory",Toast.LENGTH_LONG).show();
-               }
-               else if(!str_name.equals(0)&& !str_name.equals(0)) {
-                   SaveData saveData = new SaveData(str_name, str_empcode);
-                   ref.push().setValue(saveData);
-                   Toast.makeText(getApplicationContext(),"Registered Succesfully..",Toast.LENGTH_SHORT).show();
-                   Intent intent=new Intent(LoginRegistration.this,MainActivity.class);
-                   startActivity(intent);
-               }
+        if (appStatus.isOnline()) {
+            str_name = e1.getText().toString().trim();
+            str_empcode = e2.getText().toString().trim();
+            try {
+                if (str_name.length() == 0 && str_empcode.length() == 0) {
+                    Toast.makeText(getApplicationContext(), "Please enter Employee Name and Code..", Toast.LENGTH_LONG).show();
+                } else if (str_name.length() == 0 || str_empcode.length() == 0) {
+                    Toast.makeText(getApplicationContext(), "All fields are Mandatory", Toast.LENGTH_LONG).show();
+                } else if (!str_name.equals(0) && !str_name.equals(0)) {
+                    SaveData saveData = new SaveData(str_name, str_empcode);
+                    ref.push().setValue(saveData);
+                    Toast.makeText(getApplicationContext(), "Registered Succesfully..", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(LoginRegistration.this, MainActivity.class);
+                    startActivity(intent);
+                }
+            } catch (Exception e) {
+                Toast.makeText(getApplicationContext(), "Soory,Error Occured..", Toast.LENGTH_LONG).show();
             }
-            catch (Exception e){
-              Toast.makeText(getApplicationContext(),"Soory,Error Occured..",Toast.LENGTH_LONG).show();
-            }
-        }else{
-            Toast.makeText(getApplicationContext(),"Please see that you have Active internet connection..",Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getApplicationContext(), "Please see that you have Active internet connection..", Toast.LENGTH_LONG).show();
         }
     }
 }
